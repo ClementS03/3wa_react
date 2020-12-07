@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React</title>
+  <!-- Library -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+  <!-- babel => compilation du JSX -->
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <style>
+    .heading {
+      color: purple;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    class Consigne extends React.Component {
+      render() {
+
+        // Notez que la balise div est indispensable. Il ne faut renvoyer qu'un seul composant parent.
+        return (
+          <div>
+            <p>
+              <a href="https://fr.reactjs.org/docs/components-and-props.html">Documentation sur les composants et les
+              props
+            </a>
+            </p>
+
+            <p>
+              En vous basant sur l'exemple de Title, créer un composant Button qui prendra en props un texte, et qui sera
+              affiché à l'intérieur de ce bouton.
+          </p>
+            <p>Appeler ce bouton deux fois en lui envoyant pour props "Bubu", et "bababa"</p>
+            <p>Créer un composant Image qui va afficher une image, et qui prend une clé src en guise de props</p>
+            <p>Appeler cette image en lui envoyant cette adresse comme prop de src</p>
+          </div>
+        )
+      }
+    }
+
+    class Title extends React.Component {
+      render() {
+        return (
+          <h1>{this.props.title}</h1>
+        )
+      }
+    }
+
+    class Button extends React.Component {
+      render() {
+        return <button> {this.props.text} </button>
+      }
+    }
+
+    class MonImage extends React.Component {
+      render() {
+        return (
+          <img src={this.props.src} />
+        )
+      }
+    }
+
+    // Création de composant en créant des classes
+    class Hello extends React.Component {
+
+      render() {
+        return (
+          <div>
+            <Title title="Bonjour" />
+            <Consigne />
+            <Button text="Bubu" />
+            <Button text="Baba" />
+            <MonImage src="https://images.unsplash.com/photo-1606990972809-f6dff5d17367?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
+          </div>
+        )
+      }
+    }
+
+    // Rendu dans le DOM
+    ReactDOM.render(
+      <Hello />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+
+</html>
