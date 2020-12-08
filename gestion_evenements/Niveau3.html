@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React</title>
+  <!-- Library -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+  <!-- babel => compilation du JSX -->
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    // Création de composant en créant des classes
+    class Hello extends React.Component {
+
+      constructor() {
+        super();
+
+        this.state = {
+          animal: "Ronron",
+          notes: [1, 10, 15, 19, 20],
+          isDisplayed: false,
+        }
+
+        this.removeLastElement = this.removeLastElement.bind(this);
+        this.changeImageDisplay = this.changeImageDisplay.bind(this);
+      }
+
+      render() {
+        return (
+          <div>
+            <div>
+              <p>Créer une méthode afficheTexte qui prend en paramètre une chaîne de caractère</p>
+              <p>Créer un bouton qui envoie la valeur de state de animal en paramètre, et qui appelle la méthode afficheTexte</p>
+              <button onClick={() => this.afficherTexte(this.state.animal)}>Affichage animal</button>
+            </div>
+
+            <div>
+              <p>Créer un bouton qui va retirer le dernier élément de la liste des notes</p>
+              <p>Il faut que le bouton appelle une méthode removeLastElement, qui va retirer le dernier élément des notes.</p>
+              <button onClick={() => { this.removeLastElement(this.state.notes) }}>Retirer denier element lidte de notes</button>
+              {this.state.notes.map((notes, index) => <p key={index}>{notes}</p>)}
+            </div>
+
+            <div>
+              <p>Créer un bouton qui va afficher ou non cette image en changeant la valeur de isDisplayed </p>
+              <p>Il faut que le bouton appelle une méthode changeImageDisplay, qui va changer le state de isDisplayed</p>
+              <button onClick={this.changeImageDisplay}>Faire apparaitre l'image</button>
+              {this.state.isDisplayed && (
+
+                <img src="https://images.unsplash.com/photo-1551258235-ad5cda01926d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80" />
+
+              )}
+            </div>
+          </div>
+        )
+      }
+
+      afficherTexte(texte) {
+        console.log(texte);
+      }
+
+      removeLastElement() {
+        const newNotes = this.state.notes;
+        newNotes.pop();
+        this.setState({
+          notes: newNotes
+        })
+      }
+
+      changeImageDisplay() {
+        this.setState({
+          isDisplayed: !this.state.isDisplayed,
+        })
+      }
+    }
+
+    // Rendu dans le DOM
+    ReactDOM.render(
+      <Hello />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+
+</html>

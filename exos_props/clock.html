@@ -33,7 +33,7 @@
     class Clock extends React.Component {
         render(){
             const d = new Date();
-            const heureLocale = d.getHours() + " : " + d.getMinutes() + " : " + d.getSeconds();
+            const heureLocale = d.toLocaleTimeString();
         
             return(
                 <div>
