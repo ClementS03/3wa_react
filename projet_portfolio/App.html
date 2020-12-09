@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        .app_btn {
+            margin: 2rem;
+        }
+
+        .app__center {
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .red {
+            background-color: red !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /*
+        * Premier composant pour la base de React à savoir le rendu des 
+        * éléments au format JSX, affichage éléments d'un tableau etc....
+        */
+        class Base extends React.Component {
+            render() {
+                const name = "Clément";
+                const titre = <h1>Portfolio {name}</h1>;
+                const presentationProjet = (
+                    <div>
+                        <p>Je suis un objet JSX qui à pour but de vous présenter mes compétences en React sur ce mini-projet !</p>
+                    </div>
+                )
+                const listeCompetencesActuelles = [
+                    {
+                        nom: "JSX",
+                        but: "On à appris la syntaxe JSX",
+                    },
+                    {
+                        nom: "props",
+                        but: "On à également vu les props",
+                    },
+                    {
+                        nom: "states",
+                        but: "Et aussi les state",
+                    },
+                    {
+                        nom: "evenements",
+                        but: "Et puis la gestion des événements",
+                    },
+
+                ]
+
+                const competences = listeCompetencesActuelles.map((competence, index) => {
+                    return <ul key={index}>
+                        <li>Nom : {competence.nom}</li>
+                        <li>But : {competence.but}</li>
+                    </ul>;
+
+                })
+
+                return (
+                    <div className="m-3 p-2">
+                        {titre}
+                        <div>
+                            {presentationProjet}
+                            {this.renduBoutton()}
+                            <p>Ce boutton est crée dans une méthode et rendu au format JSX mais il ne fait rien !</p>
+                        </div>
+                        <div>
+                            <h2>Liste de compétences apprises :</h2>
+                            {competences}
+                        </div>
+                    </div>
+                )
+            }
+
+            renduBoutton() {
+                return <button className="btn btn-primary">Je suis là pour décorer !</button>
+            }
+        }
+
+
+        /*
+        * Deuxième composant pour les props de React
+        */
+        class Citation extends React.Component {
+            render() {
+                return (
+                    <ul>
+                        <li>{this.props.citations.texte}</li>
+                        <li>{this.props.citations.auteur}</li>
+                    </ul>
+                )
+            }
+        }
+
+        class Citations extends React.Component {
+            render() {
+                const tableauCitations = this.props.citations;
+                return (
+                    <div>
+                        {tableauCitations.map((citation, index) =>
+                            <Citation key={index} citations={citation} />
+                        )}
+                    </div>
+                )
+            }
+        }
+
+
+        // App est l'élément qui servira de base pour votre application, c'est son point d'entrée.
+        class App extends React.Component {
+
+            render() {
+                const listeCitations = citations();
+
+                return (
+                    <div className="App">
+                        {/* Appelez un ou plusieurs composants ici */}
+                        <Base />
+                        <Citations citations={listeCitations} />
+                    </div>
+                )
+
+                function citations() {
+                    return [
+                        {
+                            texte: "Exige beaucoup de toi-même et attends peu des autres. Ainsi beaucoup d'ennuis te seront épargnés.",
+                            auteur: "Confucius",
+                        },
+                        {
+                            texte: "Dans la vie on ne fait pas ce que l'on veut mais on est responsable de ce que l'on est.",
+                            auteur: "Jean Paul Sartre",
+                        },
+                        {
+                            texte: "La vie, c'est comme une bicyclette, il faut avancer pour ne pas perdre l'équilibre.",
+                            auteur: "Albert Einstein",
+                        },
+                        {
+                            texte: "Choisissez un travail que vous aimez et vous n'aurez pas à travailler un seul jour de votre vie.",
+                            auteur: "Confucius",
+                        }
+                    ]
+                }
+            }
+        }
+
+        // Rendu dans le DOM
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+
+</html>
