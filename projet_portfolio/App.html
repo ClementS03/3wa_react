@@ -27,7 +27,7 @@
 
 
 <body>
-    <div id="root"></div>
+    <div id="root" class="m-3 p-2"></div>
     <script type="text/babel">
 
         /*
@@ -72,7 +72,7 @@
                 })
 
                 return (
-                    <div className="m-3 p-2">
+                    <div>
                         {titre}
                         <div>
                             {presentationProjet}
@@ -101,7 +101,7 @@
                 return (
                     <ul>
                         <li>{this.props.citations.texte}</li>
-                        <li>{this.props.citations.auteur}</li>
+                        <li><strong>{this.props.citations.auteur}</strong></li>
                     </ul>
                 )
             }
@@ -112,6 +112,7 @@
                 const tableauCitations = this.props.citations;
                 return (
                     <div>
+                        <h3>Citattions rendus graces aux props</h3>
                         {tableauCitations.map((citation, index) =>
                             <Citation key={index} citations={citation} />
                         )}
@@ -120,6 +121,196 @@
             }
         }
 
+        /*
+        * Troisième composant pour les state de React
+        */
+        class State extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    nom: "Clément",
+                    chien: {
+                        name: "Reika",
+                        age: 1,
+                    },
+                    texte: "Changez moi !"
+                }
+
+                this.handleChange = this.handleChange.bind(this);
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>Présentation grâce aux données contenues dans les state et changement de texte</h2>
+                        <p>Je m'appel {this.state.nom} et j'ai un chien qui s'appelle {this.state.chien.name} et qui à {this.state.chien.age} an</p>
+                        <input type="text" value={this.state.texte} onChange={this.handleChange} />
+                        <p>Entrez du texte dans le input pour qu'il s'affiche ici : </p>
+                        <p>Valeur de la zone de texte : <strong>{this.state.texte}</strong></p>
+                    </div>
+                )
+            }
+
+            handleChange(event) {
+                this.setState({
+                    texte: event.target.value,
+                })
+            }
+        }
+
+        /*
+        * Quatrième composant pour les événements de React
+        */
+        class Evenements extends React.Component {
+            constructor() {
+                super();
+
+                this.state = {
+                    texte: "Le faire apparaitre ! ",
+                    isDisplayed: false,
+                    texteSpan: ""
+                }
+
+                this.changeImageDisplay = this.changeImageDisplay.bind(this);
+                this.changeTexteSpan = this.changeTexteSpan.bind(this);
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>Amusons nous avec les Evenements</h2>
+                        <p>Mon endroit préféré ? </p>
+                        <button onClick={this.changeImageDisplay} className="btn btn-success">{this.state.texte}</button>
+                        <div>
+                            {this.state.isDisplayed && (
+                                <img src="https://images.unsplash.com/photo-1597182471537-7b7851fd0d58?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" />
+                            )}
+                        </div>
+                        <div className="mt-3">
+                            <span onClick={this.changeTexteSpan}>Cliquez sur moi pour voir apparaitre un texte !</span>
+                            <p><strong>{this.state.texteSpan}</strong></p>
+                        </div>
+                    </div>
+                )
+            }
+
+            changeImageDisplay() {
+                let texte = this.state.texte;
+                if (texte.includes("apparaitre")) {
+                    texte = "Le faire disparaître !";
+                } else {
+                    texte = "Le faire apparaitre !"
+                }
+                this.setState({
+                    isDisplayed: !this.state.isDisplayed,
+                    texte: texte
+                })
+            }
+
+            changeTexteSpan() {
+                this.setState({
+                    texteSpan: "Comme vous l'aurez compris j'aime la montagne !!!"
+                })
+            }
+        }
+
+        /*
+        * Cinquième composant toujours sur les évenements mais avec des listes
+        */
+        class Hobbies extends React.Component {
+            constructor() {
+                super();
+                this.state = {
+                    jeuxVideos: [
+                        {
+                            nom: "Final Fantasy X",
+                            genre: "RPG"
+                        },
+                        {
+                            nom: "League Of Legend",
+                            genre: "Moba"
+                        },
+                    ],
+
+                    livres: [
+                        {
+                            nom: "Clean Code",
+                            auteur: "Robert C Martin"
+                        },
+                        {
+                            nom: "Le Personnal MBA",
+                            auteur: "Josh Kaufman"
+                        },
+                        {
+                            nom: "Miracle Morning",
+                            auteur: "Hal Elrod"
+                        }
+                    ],
+
+                    newVideoGameName: "",
+                    newVideoGameGenre: "",
+
+                    newBookName: "",
+                    newBookAuthor: "",
+                };
+
+                this.addVideoGame = this.addVideoGame.bind(this);
+                this.updateField = this.updateField.bind(this);
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>J'aime aussi les jeux vidéo et la lecture dont voici une petite liste</h2>
+
+                        <div>
+                            <p>D'abord les jeux Videos</p>
+                            {this.state.jeuxVideos.map((jeu, index) => (
+                                <div key={index}>
+                                    <ul>
+                                        <li>Nom du jeu : {jeu.nom}</li>
+                                        <li>Genre : {jeu.genre}</li>
+                                    </ul>
+                                </div>
+                            ))}
+                            <div>
+                                <label>
+                                    Nom du Jeu : <input value={this.state.newVideoGameName} onChange={this.updateField} name="newVideoGameName" type="text" />
+                                </label>
+                            </div>
+
+                            <div>
+                                <label>
+                                    Genre du jeu : <input value={this.state.newVideoGameGenre} onChange={this.updateField} name="newVideoGameGenre" type="text" />
+                                </label>
+                            </div>
+
+                            <button className="btn btn-primary" onClick={this.addVideoGame}>Valider</button>
+                        </div>
+                    </div>
+                )
+            }
+
+            addVideoGame() {
+                const newVideoGame = {
+                    nom: this.state.newVideoGameName,
+                    genre: this.state.newVideoGameGenre,
+                }
+
+                const listVideoGame = this.state.jeuxVideos;
+                listVideoGame.push(newVideoGame);
+
+                this.setState({
+                    jeuxVideos: listVideoGame,
+                })
+            }
+
+            updateField(event) {
+                this.setState({
+                    [event.target.name]: event.target.value,
+                })
+            }
+        }
 
         // App est l'élément qui servira de base pour votre application, c'est son point d'entrée.
         class App extends React.Component {
@@ -132,6 +323,9 @@
                         {/* Appelez un ou plusieurs composants ici */}
                         <Base />
                         <Citations citations={listeCitations} />
+                        <State />
+                        <Evenements />
+                        <Hobbies />
                     </div>
                 )
 

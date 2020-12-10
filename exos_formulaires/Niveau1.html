@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello React</title>
+  <!-- Library -->
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+  <!-- babel => compilation du JSX -->
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <style>
+    .Form {
+      padding: 8px;
+      border: solid 1px grey;
+      border-radius: 4px;
+    }
+
+    span,
+    input,
+    button {
+      margin: 0 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    // Création de composant en créant des classes
+    class Hello extends React.Component {
+
+      constructor() {
+        super();
+        this.state = {
+          animal: "",
+          pseudo: "",
+          pizza: "",
+          age: 0,
+        }
+
+        this.showAnimal = this.showAnimal.bind(this);
+        this.handleAnimalNameChange = this.handleAnimalNameChange.bind(this);
+        this.handleChangePseudo = this.handleChangePseudo.bind(this);
+        this.alertPseudo = this.alertPseudo.bind(this);
+        this.handleChangeAge = this.handleChangeAge.bind(this);
+        this.alertAge = this.alertAge.bind(this);
+        this.showPizza = this.showPizza.bind(this);
+        this.handleChangePizza = this.alertAge.bind(this);
+      }
+
+      render() {
+        return (
+          <div>
+            <div>
+              <p><a href="https://fr.reactjs.org/docs/forms.html">Documentation sur l'utilisation des Formulaires en React</a></p>
+              <p>Voici un formulaire pour entrer un nom d'animal</p>
+              <form onSubmit={this.showAnimal} className="Form">
+                <label>
+                  <span>Nom de l'animal</span>
+                  <input type="text" value={this.state.animal} onChange={this.handleAnimalNameChange} />
+                </label>
+                <button>Envoyer</button>
+              </form>
+            </div>
+
+            <div>
+              <p>Créer un formulaire pour saisir un pseudo, qui alerte la valeur du pseudo quand on le soumet</p>
+              <form onSubmit={this.alertPseudo} className="Form">
+                <label>
+                  <span>Pseudo</span>
+                  <input type="text" value={this.state.pseudo} onChange={this.handleChangePseudo} />
+                </label>
+                <button>Envoyer</button>
+              </form>
+            </div>
+            <div>
+              <p>Créer un formulaire pour saisir un âge. Quand on soumet le formulaire alerter la valeur que si l'âge est inférieur à 18</p>
+              <form onSubmit={this.alertAge} className="Form">
+                <label>
+                  <span>Age</span>
+                  <input type="text" value={this.state.age} onChange={this.handleChangeAge} />
+                </label>
+                <button>Envoyer</button>
+              </form>
+            </div>
+            <div>
+              <p>Créer un formulaire permettant de saisir sa pizza préférée dans un input text. Afficher sa valeur dans une console.log quand on soumet le formulaire</p>
+              <form onSubmit={this.showPizza} className="Form">
+                <label>
+                  <span>Pizza préféré</span>
+                  <input type="text" value={this.state.pizza} onChange={this.handleChangePizza} />
+                </label>
+                <button>Envoyer</button>
+              </form>
+            </div>
+          </div>
+        )
+      }
+
+      /**
+       * Montre l'animal présent dans le state
+       */
+      showAnimal(event) {
+        event.preventDefault() // Empêche le formulaire d'avoir un comportement normal, c'est-à-dire qu'on empêche qu'il s'actualise
+        console.log(this.state.animal)
+      }
+
+      /**
+       * Met à jour la valeur de animal avec la valeur courante de l'input animal
+       * @param event
+       */
+      handleAnimalNameChange(event) {
+        this.setState({
+          animal: event.target.value
+        })
+      }
+
+      handleChangePseudo(event) {
+        this.setState({
+          pseudo: event.target.value
+        })
+      }
+      alertPseudo(event) {
+        event.preventDefault();
+        alert(this.state.pseudo);
+
+      }
+
+      handleChangeAge(event) {
+        this.setState({
+          age: event.target.value
+        })
+      }
+
+      alertAge(event) {
+        event.preventDefault();
+        if (this.state.age < 18) {
+          alert(this.state.age);
+        }
+      }
+
+      showPizza(event) {
+        event.preventDefault();
+        console.log(this.state.pizza);
+      }
+      handleChangePizza(event) {
+        this.setState({
+          pizza: event.target.value
+        })
+      }
+
+    }
+
+    // Rendu dans le DOM
+    ReactDOM.render(
+      <Hello message="Hello React" subtitle="Enjoy ! " />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+
+</html>
