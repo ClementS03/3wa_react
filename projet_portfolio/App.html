@@ -224,10 +224,12 @@
                     jeuxVideos: [
                         {
                             nom: "Final Fantasy X",
+                            draftName: "",
                             genre: "RPG"
                         },
                         {
                             nom: "League Of Legend",
+                            draftName: "",
                             genre: "Moba"
                         },
                     ],
@@ -235,27 +237,36 @@
                     livres: [
                         {
                             nom: "Clean Code",
+                            draftName: "",
                             auteur: "Robert C Martin"
                         },
                         {
                             nom: "Le Personnal MBA",
+                            draftName: "",
                             auteur: "Josh Kaufman"
                         },
                         {
                             nom: "Miracle Morning",
+                            draftName: "",
                             auteur: "Hal Elrod"
                         }
                     ],
 
                     newVideoGameName: "",
                     newVideoGameGenre: "",
-
                     newBookName: "",
                     newBookAuthor: "",
                 };
 
                 this.addVideoGame = this.addVideoGame.bind(this);
+                this.addBook = this.addBook.bind(this);
                 this.updateField = this.updateField.bind(this);
+                this.updatedVideoGameDraftName = this.updatedVideoGameDraftName.bind(this);
+                this.saveVideoGame = this.saveVideoGame.bind(this);
+                this.deleteVideoGame = this.deleteVideoGame.bind(this);
+                this.updatedBookDraftName = this.updatedBookDraftName.bind(this);
+                this.saveBook = this.saveBook.bind(this);
+                this.deleteBook = this.deleteBook.bind(this);
             }
 
             render() {
@@ -264,6 +275,11 @@
                         <h2>J'aime aussi les jeux vidéo et la lecture dont voici une petite liste</h2>
 
                         <div>
+                            {
+                                /*
+                                * Les Jeux Videos
+                                */
+                            }
                             <p>D'abord les jeux Videos</p>
                             {this.state.jeuxVideos.map((jeu, index) => (
                                 <div key={index}>
@@ -271,14 +287,17 @@
                                         <li>Nom du jeu : {jeu.nom}</li>
                                         <li>Genre : {jeu.genre}</li>
                                     </ul>
+                                    <label>
+                                        Essayez de changez le nom du jeu <input type="text" value={jeu.draftName} onChange={(event) => this.updatedVideoGameDraftName(index, event)} /> <button onClick={() => this.saveVideoGame(index)}>Modifier le nom du jeu ou le supprimer de la liste</button> <button onClick={() => this.deleteVideoGame(index)}>Supprimer le Jeu</button>
+                                    </label>
                                 </div>
                             ))}
+                            <h5>Essayez de rentrer votre propre Jeu !</h5>
                             <div>
                                 <label>
                                     Nom du Jeu : <input value={this.state.newVideoGameName} onChange={this.updateField} name="newVideoGameName" type="text" />
                                 </label>
                             </div>
-
                             <div>
                                 <label>
                                     Genre du jeu : <input value={this.state.newVideoGameGenre} onChange={this.updateField} name="newVideoGameGenre" type="text" />
@@ -287,14 +306,50 @@
 
                             <button className="btn btn-primary" onClick={this.addVideoGame}>Valider</button>
                         </div>
+
+                        {
+                            /*
+                            * Les Livres
+                            */
+                        }
+                        <div>
+                            <p>Ensuite les livres</p>
+                            {this.state.livres.map((livre, index) => (
+                                <div key={index}>
+                                    <ul>
+                                        <li>Nom du livre : {livre.nom}</li>
+                                        <li>Genre : {livre.auteur}</li>
+                                    </ul>
+                                    <label>
+                                        Essayez de changez le nom du livre ou de le supprimer de la liste <input type="text" value={livre.draftName} onChange={(event) => this.updatedBookDraftName(index, event)} /> <button onClick={() => this.saveBook(index)}>Modifier le nom du livre</button> <button onClick={() => this.deleteBook(index)}>Supprimer le livre</button>
+                                    </label>
+                                </div>
+                            ))}
+                            <h5>Essayez de rentrer votre propre Livre !</h5>
+                            <div>
+                                <label>
+                                    Nom du livre : <input value={this.state.newBookName} onChange={this.updateField} name="newBookName" type="text" />
+                                </label>
+                            </div>
+
+                            <div>
+                                <label>
+                                    Auteur du livre : <input value={this.state.newBookAuthor} onChange={this.updateField} name="newBookAuthor" type="text" />
+                                </label>
+                            </div>
+
+                            <button className="btn btn-primary" onClick={this.addBook}>Valider</button>
+                        </div>
                     </div>
                 )
             }
 
+            // AJOUTER UN JEU
             addVideoGame() {
                 const newVideoGame = {
                     nom: this.state.newVideoGameName,
                     genre: this.state.newVideoGameGenre,
+                    draftName: ""
                 }
 
                 const listVideoGame = this.state.jeuxVideos;
@@ -305,9 +360,98 @@
                 })
             }
 
+            // AJOUTER UN LIVRE
+            addBook() {
+                const newBook = {
+                    nom: this.state.newBookName,
+                    auteur: this.state.newBookAuthor,
+                    draftName: ""
+                }
+
+                const listBook = this.state.livres;
+                listBook.push(newBook);
+
+                this.setState({
+                    livres: listBook,
+                })
+            }
+
+            // METTRE A JOUR LE CHAMP
             updateField(event) {
                 this.setState({
                     [event.target.name]: event.target.value,
+                })
+            }
+
+            // METTRE A JOUR LE DRAFTNAME D'UN JEU
+            updatedVideoGameDraftName(index, event) {
+                let updatedName = this.state.jeuxVideos[index];
+
+                updatedName.draftName = event.target.value;
+
+                let videoGameList = this.state.jeuxVideos;
+                videoGameList[index] = updatedName;
+
+                this.setState({
+                    jeuxVideos: videoGameList,
+                })
+            }
+            saveVideoGame(index) {
+                let videoGame = this.state.jeuxVideos[index];
+
+                videoGame.nom = videoGame.draftName;
+                videoGame.draftName = "";
+
+                let listVideoGame = this.state.jeuxVideos;
+                listVideoGame[index] = videoGame;
+
+                this.setState({
+                    jeuxVideos: listVideoGame,
+                })
+            }
+            deleteVideoGame(index) {
+                const toDelete = this.state.jeuxVideos[index];
+
+                const newVideoGameList = this.state.jeuxVideos.filter(jeu => jeu !== toDelete);
+
+                this.setState({
+                    jeuxVideos: newVideoGameList,
+                })
+            }
+
+            // METTRE A JOUR LE DRAFTNAME D'UN LIVRE
+            updatedBookDraftName(index, event) {
+                let updatedName = this.state.livres[index];
+
+                updatedName.draftName = event.target.value;
+
+                let bookList = this.state.livres;
+                bookList[index] = updatedName;
+
+                this.setState({
+                    livres: bookList,
+                })
+            }
+            saveBook(index) {
+                let book = this.state.livres[index];
+
+                book.nom = book.draftName;
+                book.draftName = "";
+
+                let listBook = this.state.livres;
+                listBook[index] = book;
+
+                this.setState({
+                    livres: listBook,
+                })
+            }
+            deleteBook(index) {
+                const toDelete = this.state.livres[index];
+
+                const newBookList = this.state.livres.filter(livre => livre !== toDelete);
+
+                this.setState({
+                    livres: newBookList,
                 })
             }
         }
